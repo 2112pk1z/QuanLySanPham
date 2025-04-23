@@ -2,14 +2,19 @@ import React, { useState } from 'react';
 import ProductForm from './ProductForm';
 
 const sampleProducts = [
-  { id: 1, name: 'Sữa rửa mặt', price: 120000, category: 'Chăm sóc da', stock: 10 },
-  { id: 2, name: 'Dầu gội thảo dược', price: 150000, category: 'Chăm sóc tóc', stock: 5 },
-  { id: 3, name: 'Vitamin C', price: 80000, category: 'Thực phẩm chức năng', stock: 20 },
+  { id: 1, name: 'Áo thun nam', price: 200000, category: 'Thời trang', stock: 20 },
+  { id: 2, name: 'Tai nghe Bluetooth', price: 500000, category: 'Công nghệ', stock: 15 },
+  { id: 3, name: 'Máy xay sinh tố', price: 750000, category: 'Gia dụng', stock: 10 },
+  { id: 4, name: 'Giày sneaker nữ', price: 800000, category: 'Thời trang', stock: 8 },
+  { id: 5, name: 'Bàn phím cơ', price: 1200000, category: 'Công nghệ', stock: 5 },
 ];
 
 function ProductList() {
   const [products, setProducts] = useState(sampleProducts);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('Tất cả');
+
+  const categories = ['Tất cả', ...new Set(sampleProducts.map(p => p.category))];
 
   const handleDelete = (id) => {
     setProducts(products.filter(p => p.id !== id));
@@ -23,26 +28,47 @@ function ProductList() {
     setSearchTerm(e.target.value);
   };
 
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  };
+
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'Tất cả' || product.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
-    <div className="p-4">
+    <div className="p-6 max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Quản lý sản phẩm</h1>
+
       <ProductForm onAdd={handleAdd} />
 
-      {/* Ô tìm kiếm */}
-      <div className="mb-4">
+      {/* Bộ lọc và tìm kiếm */}
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <label className="mr-2 font-medium">Lọc theo danh mục:</label>
+          <select
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            className="border px-3 py-2 rounded"
+          >
+            {categories.map((cat, index) => (
+              <option key={index} value={cat}>{cat}</option>
+            ))}
+          </select>
+        </div>
+
         <input
           type="text"
           placeholder="Tìm sản phẩm theo tên..."
           value={searchTerm}
           onChange={handleSearchChange}
-          className="w-full px-4 py-2 border rounded"
+          className="px-4 py-2 border rounded w-1/2"
         />
       </div>
 
-      <h2 className="text-xl font-bold mb-4">Danh sách sản phẩm</h2>
+      {/* Bảng sản phẩm */}
       <table className="w-full border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
