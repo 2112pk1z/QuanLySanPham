@@ -55,19 +55,19 @@ function ProductList() {
   const totalStock = filteredProducts.reduce((sum, p) => sum + p.stock, 0);
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Quản lý sản phẩm</h1>
+    <div className="bg-gray-50 p-8 max-w-4xl mx-auto rounded-lg shadow-lg">
+      <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">Quản lý sản phẩm</h1>
 
       <ProductForm onAdd={handleAdd} />
 
       {/* Bộ lọc và tìm kiếm */}
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <label className="mr-2 font-medium">Lọc theo danh mục:</label>
+      <div className="flex items-center justify-between mb-6 space-x-4">
+        <div className="flex items-center">
+          <label className="mr-2 text-lg text-gray-700">Lọc theo danh mục:</label>
           <select
             value={selectedCategory}
             onChange={handleCategoryChange}
-            className="border px-3 py-2 rounded"
+            className="border rounded-lg px-4 py-2 bg-white shadow-sm text-gray-700 focus:ring-2 focus:ring-indigo-500"
           >
             {categories.map((cat, index) => (
               <option key={index} value={cat}>{cat}</option>
@@ -75,24 +75,26 @@ function ProductList() {
           </select>
         </div>
 
-        <input
-          type="text"
-          placeholder="Tìm sản phẩm theo tên..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          className="px-4 py-2 border rounded w-1/2"
-        />
+        <div className="w-1/2">
+          <input
+            type="text"
+            placeholder="Tìm sản phẩm theo tên..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="w-full px-4 py-2 border rounded-lg bg-white shadow-sm text-gray-700 focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
       </div>
 
       {/* Bảng sản phẩm */}
-      <table className="w-full border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border px-4 py-2">Tên sản phẩm</th>
-            <th className="border px-4 py-2">Giá</th>
-            <th className="border px-4 py-2">Danh mục</th>
-            <th className="border px-4 py-2">Tồn kho</th>
-            <th className="border px-4 py-2">Hành động</th>
+      <table className="w-full table-auto border-collapse border border-gray-300">
+        <thead className="bg-indigo-600 text-white">
+          <tr>
+            <th className="border px-6 py-4 text-left">Tên sản phẩm</th>
+            <th className="border px-6 py-4 text-left">Giá</th>
+            <th className="border px-6 py-4 text-left">Danh mục</th>
+            <th className="border px-6 py-4 text-left">Tồn kho</th>
+            <th className="border px-6 py-4 text-left">Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -107,7 +109,7 @@ function ProductList() {
       </table>
 
       {/* Tổng số và tổng tồn kho */}
-      <div className="mt-4 font-medium text-gray-700">
+      <div className="mt-4 text-lg font-semibold text-gray-700">
         Tổng sản phẩm: {totalProducts} | Tổng tồn kho: {totalStock}
       </div>
     </div>
