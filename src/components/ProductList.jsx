@@ -6,6 +6,7 @@ const sampleProducts = [
   { id: 2, name: 'Dầu gội thảo dược', price: 150000, category: 'Chăm sóc tóc', stock: 5 },
 ];
 
+
 function ProductList() {
   const [products, setProducts] = useState(sampleProducts);
 
