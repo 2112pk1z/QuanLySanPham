@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
+import ProductForm from './ProductForm';
 
 const sampleProducts = [
   { id: 1, name: 'Sữa rửa mặt', price: 120000, category: 'Chăm sóc da', stock: 10 },
   { id: 2, name: 'Dầu gội thảo dược', price: 150000, category: 'Chăm sóc tóc', stock: 5 },
-  { id: 3, name: 'Viên uống vitamin C', price: 80000, category: 'Thực phẩm chức năng', stock: 20 },
 ];
 
 function ProductList() {
   const [products, setProducts] = useState(sampleProducts);
 
   const handleDelete = (id) => {
-    const newList = products.filter(product => product.id !== id);
-    setProducts(newList);
+    setProducts(products.filter(p => p.id !== id));
+  };
+
+  const handleAdd = (newProduct) => {
+    setProducts(prev => [...prev, newProduct]);
   };
 
   return (
     <div className="p-4">
+      <ProductForm onAdd={handleAdd} />
       <h2 className="text-xl font-bold mb-4">Danh sách sản phẩm</h2>
       <table className="w-full border border-gray-300">
         <thead>
