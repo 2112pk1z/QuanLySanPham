@@ -4,11 +4,12 @@ import ProductForm from './ProductForm';
 const sampleProducts = [
   { id: 1, name: 'Sữa rửa mặt', price: 120000, category: 'Chăm sóc da', stock: 10 },
   { id: 2, name: 'Dầu gội thảo dược', price: 150000, category: 'Chăm sóc tóc', stock: 5 },
+  { id: 3, name: 'Vitamin C', price: 80000, category: 'Thực phẩm chức năng', stock: 20 },
 ];
-
 
 function ProductList() {
   const [products, setProducts] = useState(sampleProducts);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleDelete = (id) => {
     setProducts(products.filter(p => p.id !== id));
@@ -18,9 +19,29 @@ function ProductList() {
     setProducts(prev => [...prev, newProduct]);
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="p-4">
       <ProductForm onAdd={handleAdd} />
+
+      {/* Ô tìm kiếm */}
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Tìm sản phẩm theo tên..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="w-full px-4 py-2 border rounded"
+        />
+      </div>
+
       <h2 className="text-xl font-bold mb-4">Danh sách sản phẩm</h2>
       <table className="w-full border border-gray-300">
         <thead>
@@ -33,7 +54,7 @@ function ProductList() {
           </tr>
         </thead>
         <tbody>
-          {products.map(product => (
+          {filteredProducts.map(product => (
             <tr key={product.id} className="text-center">
               <td className="border px-4 py-2">{product.name}</td>
               <td className="border px-4 py-2">{product.price.toLocaleString()} đ</td>
