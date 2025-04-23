@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ProductForm from './ProductForm';
+import ProductItem from './ProductItem';
 
 const sampleProducts = [
   { id: 1, name: 'Áo thun nam', price: 200000, category: 'Thời trang', stock: 20 },
@@ -10,7 +11,6 @@ const sampleProducts = [
 ];
 
 function ProductList() {
-  // Load từ localStorage nếu có, ngược lại dùng mẫu mặc định
   const [products, setProducts] = useState(() => {
     const saved = localStorage.getItem('productList');
     return saved ? JSON.parse(saved) : sampleProducts;
@@ -97,20 +97,11 @@ function ProductList() {
         </thead>
         <tbody>
           {filteredProducts.map(product => (
-            <tr key={product.id} className="text-center">
-              <td className="border px-4 py-2">{product.name}</td>
-              <td className="border px-4 py-2">{product.price.toLocaleString()} đ</td>
-              <td className="border px-4 py-2">{product.category}</td>
-              <td className="border px-4 py-2">{product.stock}</td>
-              <td className="border px-4 py-2">
-                <button
-                  onClick={() => handleDelete(product.id)}
-                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                >
-                  Xoá
-                </button>
-              </td>
-            </tr>
+            <ProductItem 
+              key={product.id}
+              product={product}
+              onDelete={handleDelete} 
+            />
           ))}
         </tbody>
       </table>
